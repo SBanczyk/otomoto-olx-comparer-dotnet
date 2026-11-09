@@ -1,8 +1,8 @@
-# Porównywarka ogłoszeń OTOMOTO i OLX (.NET)
+# OTOMOTO and OLX listing comparer (.NET)
 
-Wklej 2 do 4 linków do ogłoszeń samochodów z OTOMOTO lub OLX i zobacz je w jednej tabeli: najlepsze wartości w wierszu są wyróżnione, ceny przeliczone na PLN (kurs NBP), a porównanie ma stały link. UI jest po polsku, kod po angielsku.
+Paste 2 to 4 links to car listings from OTOMOTO or OLX and see them side by side in one table. The best value in each row is highlighted, prices are converted to PLN (NBP rate), and every comparison has a permanent link. The UI is in Polish; code and documentation are in English.
 
-Rewrite of the [Flask prototype](https://github.com/SBanczyk/otomoto_olx_comparer) as an ASP.NET Core portfolio project (.NET 10, EF Core 10, Razor Pages, SQL Server). It runs locally; there is no deployment.
+A rewrite of the [Flask prototype](https://github.com/SBanczyk/otomoto_olx_comparer) as an ASP.NET Core portfolio project (.NET 10, EF Core 10, Razor Pages, SQL Server). It runs locally; there is no deployment.
 
 ## Features
 
