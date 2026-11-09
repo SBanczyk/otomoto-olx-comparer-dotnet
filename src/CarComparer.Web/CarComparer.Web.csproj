@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="..\CarComparer.Core\CarComparer.Core.csproj" />
+    <ProjectReference Include="..\CarComparer.Scraping\CarComparer.Scraping.csproj" />
+  </ItemGroup>
+</Project>
