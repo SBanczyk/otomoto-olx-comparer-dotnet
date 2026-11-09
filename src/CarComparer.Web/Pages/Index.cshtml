@@ -1,10 +1,41 @@
 ﻿@page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Strona główna";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="hero text-center">
+    <h1 class="display-5 fw-bold">Porównaj ogłoszenia samochodów</h1>
+    <p class="lead mx-auto">Wklej od 2 do 4 linków z OTOMOTO lub OLX i zobacz auta obok siebie. Najlepsze wartości są wyróżnione, a ceny przeliczone na złote.</p>
+    <a class="btn btn-primary btn-lg px-4" asp-page="/Comparisons/New">Zacznij porównanie</a>
+</section>
+
+<section class="row g-4 mt-2">
+    <div class="col-md-4">
+        <div class="card feature h-100">
+            <div class="card-body">
+                <span class="feature-step">1</span>
+                <h2 class="h5">Wklej linki</h2>
+                <p class="text-body-secondary mb-0">Skopiuj adresy ogłoszeń z otomoto.pl lub olx.pl. Możesz mieszać oba portale.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card feature h-100">
+            <div class="card-body">
+                <span class="feature-step">2</span>
+                <h2 class="h5">Zobacz różnice</h2>
+                <p class="text-body-secondary mb-0">Cena, przebieg, rocznik, przebieg na rok i reszta parametrów w jednej tabeli, z podświetloną najlepszą wartością.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card feature h-100">
+            <div class="card-body">
+                <span class="feature-step">3</span>
+                <h2 class="h5">Udostępnij</h2>
+                <p class="text-body-secondary mb-0">Każde porównanie ma własny link. Zapisz je na koncie, żeby wrócić do niego później.</p>
+            </div>
+        </div>
+    </div>
+</section>

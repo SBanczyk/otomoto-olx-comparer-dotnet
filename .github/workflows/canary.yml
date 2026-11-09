@@ -1,0 +1,40 @@
+name: canary
+on:
+  schedule:
+    - cron: "0 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - run: dotnet build -c Release tests/CarComparer.Scraping.Tests
+      - name: Run live tests
+        id: tests
+        continue-on-error: true
+        shell: bash
+        run: set -o pipefail; dotnet test -c Release --no-build --project tests/CarComparer.Scraping.Tests --filter-trait "Category=Live" 2>&1 | tee live.log
+      - name: Report failure as an issue
+        if: steps.tests.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if grep -q "BLOCKED" live.log; then kind="portal blocked the request"
+          elif grep -q "FORMAT_CHANGED" live.log; then kind="portal format changed"
+          else kind="live tests failed"; fi
+          title="Canary: $kind"
+          body="Run: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          existing=$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[0].number')
+          if [ -n "$existing" ]; then gh issue comment "$existing" --body "$body"
+          else gh issue create --title "$title" --body "$body"; fi
+      - name: Fail the job if the tests failed
+        if: steps.tests.outcome == 'failure'
+        run: exit 1

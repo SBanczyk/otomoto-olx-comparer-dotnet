@@ -1,0 +1,25 @@
+﻿@page
+@model ResetAuthenticatorModel
+@{
+    ViewData["Title"] = "Resetowanie klucza uwierzytelniającego";
+    ViewData["ActivePage"] = ManageNavPages.TwoFactorAuthentication;
+}
+
+<partial name="_StatusMessage" for="StatusMessage" />
+<h3>@ViewData["Title"]</h3>
+<div class="alert alert-warning" role="alert">
+    <p>
+        <span class="glyphicon glyphicon-warning-sign"></span>
+        <strong>Po zresetowaniu klucza uwierzytelniającego aplikacja uwierzytelniająca nie będzie działać, dopóki nie skonfigurujesz jej ponownie.</strong>
+    </p>
+    <p>
+        Ta czynność wyłącza 2FA do czasu zweryfikowania aplikacji uwierzytelniającej.
+        Jeśli nie dokończysz konfiguracji aplikacji uwierzytelniającej, możesz utracić dostęp do konta.
+    </p>
+</div>
+<div>
+    <form id="reset-authenticator-form" method="post">
+        <button id="reset-authenticator-button" class="btn btn-danger" type="submit">Zresetuj klucz uwierzytelniający</button>
+    </form>
+</div>
+

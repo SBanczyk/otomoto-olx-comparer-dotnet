@@ -1,0 +1,43 @@
+@page "/porownanie/nowe"
+@model CarComparer.Web.Pages.Comparisons.NewModel
+@{
+    ViewData["Title"] = "Nowe porównanie";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-9 col-xl-8">
+        <h1 class="h2 mb-1">Nowe porównanie</h1>
+        <p class="text-muted">Wklej linki do ogłoszeń z otomoto.pl lub olx.pl (od 2 do 4).</p>
+
+        <div class="card">
+            <div class="card-body p-4">
+                <form method="post" asp-page="/Comparisons/New" data-busy-form>
+                    @if (Model.FormError is not null)
+                    {
+                        <div class="alert alert-danger" role="alert">@Model.FormError</div>
+                    }
+                    @for (var i = 0; i < Model.Urls.Count; i++)
+                    {
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold" for="url-@i">Ogłoszenie @(i + 1)</label>
+                            <input class="form-control form-control-lg @(Model.FieldErrors.ContainsKey(i) ? "is-invalid" : "")"
+                                   id="url-@i" name="Urls[@i]" value="@Model.Urls[i]" type="url" autocomplete="off"
+                                   placeholder="https://www.otomoto.pl/osobowe/oferta/…" />
+                            @if (Model.FieldErrors.TryGetValue(i, out var error))
+                            {
+                                <div class="invalid-feedback">@error</div>
+                            }
+                        </div>
+                    }
+                    <div class="d-flex flex-wrap gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg" data-busy-text="Pobieranie ogłoszeń…">Porównaj</button>
+                        @if (Model.Urls.Count < 4)
+                        {
+                            <button type="submit" class="btn btn-outline-secondary btn-lg" asp-page-handler="AddField" formnovalidate data-no-busy>+ Dodaj kolejny link</button>
+                        }
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

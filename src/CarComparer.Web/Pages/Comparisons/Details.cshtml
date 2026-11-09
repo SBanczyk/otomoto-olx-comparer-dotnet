@@ -1,0 +1,109 @@
+﻿@page "/porownanie/{id}"
+@using CarComparer.Core.Listings
+@model CarComparer.Web.Pages.Comparisons.DetailsModel
+@{
+    ViewData["Title"] = "Porównanie";
+    var columns = Model.View!.Columns;
+}
+
+<div class="d-flex flex-wrap justify-content-between align-items-start gap-3 mb-3">
+    <div>
+        <h1 class="h2 mb-1">Porównanie</h1>
+        <p class="text-body-secondary mb-0">
+            <span class="legend-swatch"></span> Zielone pole to najlepsza wartość w wierszu.
+        </p>
+    </div>
+    <div class="d-flex flex-wrap gap-2">
+        <button type="button" class="btn btn-outline-secondary" data-copy-link>Kopiuj link</button>
+        <form method="post" asp-page-handler="Refresh" asp-route-id="@Model.View.Comparison.Id" data-busy-form>
+            <button type="submit" class="btn btn-outline-primary" data-busy-text="Odświeżanie…">Odśwież dane</button>
+        </form>
+        @if (Model.IsOwner)
+        {
+            <form method="post" asp-page-handler="Delete" asp-route-id="@Model.View.Comparison.Id" data-confirm="Usunąć to porównanie?">
+                <button type="submit" class="btn btn-outline-danger">Usuń</button>
+            </form>
+        }
+        else
+        {
+            <form method="post" asp-page-handler="Save" asp-route-id="@Model.View.Comparison.Id">
+                <button type="submit" class="btn btn-primary">Zapisz w moich porównaniach</button>
+            </form>
+        }
+    </div>
+</div>
+
+@if (Model.Notes.Count > 0)
+{
+    <div class="alert alert-info" role="status">
+        @foreach (var note in Model.Notes)
+        {
+            <div>@note</div>
+        }
+    </div>
+}
+
+<div class="card compare-card">
+    <div class="table-responsive">
+        <table class="table compare-table align-middle mb-0">
+            <thead>
+                <tr>
+                    <th scope="col" class="sticky-col"></th>
+                    @for (var i = 0; i < columns.Count; i++)
+                    {
+                        var column = columns[i].Column;
+                        <th scope="col">
+                            <div class="fw-bold">@(column.Data is { } d ? $"{d.Brand} {d.Model}" : $"Ogłoszenie {i + 1}")</div>
+                            <span class="badge @(column.Portal == Portal.Otomoto ? "badge-otomoto" : "badge-olx")">@(column.Portal == Portal.Otomoto ? "OTOMOTO" : "OLX")</span>
+                            @if (column.FailureMessage is not null)
+                            {
+                                <div class="alert alert-warning small py-1 px-2 mt-2 mb-0 fw-normal" role="alert">@column.FailureMessage</div>
+                            }
+                        </th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var row in Model.View.Table.Rows)
+                {
+                    <tr class="@(row.Attribute.Key == "price" ? "row-price" : "")">
+                        <th scope="row" class="sticky-col">@row.Attribute.Label</th>
+                        @foreach (var cell in row.Cells)
+                        {
+                            <td class="@(cell.IsBest ? "cell-best" : "") @(cell.Display is null ? "cell-empty" : "")">@(cell.Display ?? "—")</td>
+                        }
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th scope="row" class="sticky-col">Ogłoszenie</th>
+                    @foreach (var info in columns)
+                    {
+                        <td><a href="@info.Column.Url" target="_blank" rel="noopener noreferrer">Otwórz na portalu ↗</a></td>
+                    }
+                </tr>
+                <tr>
+                    <th scope="row" class="sticky-col">Dane z</th>
+                    @foreach (var info in columns)
+                    {
+                        <td class="small">
+                            @if (info.Column.FetchedAt is { } fetched)
+                            {
+                                @fetched.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                                @if (Model.AgeInDays(fetched) > 7)
+                                {
+                                    <span class="badge text-bg-warning ms-1">@Model.AgeInDays(fetched) dni temu</span>
+                                }
+                            }
+                            else
+                            {
+                                <span>—</span>
+                            }
+                        </td>
+                    }
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
