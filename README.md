@@ -72,3 +72,5 @@ Known limitations:
 - The SMTP sender is plain, unauthenticated SMTP (enough for Mailpit, not for a real mail relay).
 - The weekly canary has not been run on a GitHub Actions runner yet, so it is unknown whether the portals block data-centre IPs.
 - The development connection string (with a throwaway SA password) is in `appsettings.Development.json` and `docker-compose.yml`.
+
+Co-Authored-By: Claude Sonnet 5.5
