@@ -1,0 +1,6 @@
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item"><a class="nav-link" asp-page="/Comparisons/Mine">Moje porównania</a></li>
+}

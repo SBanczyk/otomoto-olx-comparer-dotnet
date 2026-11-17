@@ -1,0 +1,17 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profil";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    <div class="col-md-8 col-lg-6">
+        <div class="form-floating mb-3">
+            <input asp-for="Username" class="form-control" disabled />
+            <label asp-for="Username" class="form-label"></label>
+        </div>
+    </div>
+</div>

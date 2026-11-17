@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="manage-content">
+    <partial name="_ManageNav" />
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @await RenderSectionAsync("Scripts", required: false)
+}
